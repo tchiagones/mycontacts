@@ -1,0 +1,11 @@
+{
+  "name": "mycontacts",
+  "version": "1.0.0",
+  "description": "api to store contacts",
+  "main": "src/index.js",
+  "author": "Thiago Neves",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
