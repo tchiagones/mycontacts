@@ -1,7 +1,7 @@
 const { v4 } = require('uuid');
 
 const validation = true;
-const contacts = [
+let contacts = [
   {
     id: v4(),
     name: 'Thiago',
@@ -30,8 +30,19 @@ class ContactsRepository {
   findById(id) {
     return new Promise((resolve, reject) => {
       if (validation) {
-        const contact = contacts.find((user) => user.id === id);
+        const contact = contacts.find((item) => item.id === id);
         resolve(contact);
+      } else {
+        reject(new Error('something bad happened'));
+      }
+    });
+  }
+
+  remove(id) {
+    return new Promise((resolve, reject) => {
+      if (validation) {
+        contacts = contacts.filter((item) => item.id !== id);
+        resolve();
       } else {
         reject(new Error('something bad happened'));
       }
