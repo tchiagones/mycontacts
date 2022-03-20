@@ -1,5 +1,6 @@
 const { uuid } = require('uuidv4');
 
+const validation = true;
 const contacts = [
   {
     id: uuid(),
@@ -11,7 +12,13 @@ const contacts = [
 
 class ContactsRepository {
   findAll() {
-    return contacts;
+    return new Promise((resolve, reject) => {
+      if (validation) {
+        resolve(contacts);
+      } else {
+        reject(new Error('something bad happened'));
+      }
+    });
   }
 }
 
