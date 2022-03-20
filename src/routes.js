@@ -3,8 +3,7 @@ const ContactController = require('./app/controllers/ContactController');
 
 const router = Router();
 
-router.get('/contacts', (request, response) => {
-  ContactController.index(request, response);
-});
+router.get('/contacts', ContactController.index);
+router.get('/contacts/:id', ContactController.show);
 
 module.exports = router;
