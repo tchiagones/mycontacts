@@ -4,10 +4,9 @@ const app = express();
 const portNumber = 3000;
 const logMessage = `🔥 Server started at http://localhost:${portNumber} with a hot🥵 reload`;
 
-app.get('/', (request, response) => {
-  response.send(logMessage);
-});
+const routes = require('./routes');
 
+app.use(routes);
 app.listen(portNumber, () => console.log(
   logMessage,
 ));
