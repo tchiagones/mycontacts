@@ -19,29 +19,21 @@ let contacts = [
 
 class ContactsRepository {
   async findAll() {
-    const rows = await db.query(`
-        SELECT * FROM contacts
-        `);
+    const rows = await db.query('SELECT * FROM contacts');
 
     return rows;
   }
 
   async findById(id) {
-    const rows = await db.query(`
-        SELECT * FROM contacts WHERE ID = $1
-        `, [id]);
+    const [row] = await db.query('SELECT * FROM contacts WHERE ID = $1', [id]);
 
-    return rows;
+    return row;
   }
 
-  findByEmail(email) {
-    return new Promise((resolve, reject) => {
-      if (validation) {
-        resolve(contacts.find((item) => item.email === email));
-      } else {
-        reject(new Error('something bad happened'));
-      }
-    });
+  async findByEmail(email) {
+    const [row] = await db.query('SELECT * FROM contacts WHERE email = $1', [email]);
+
+    return row;
   }
 
   async create({
