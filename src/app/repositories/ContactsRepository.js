@@ -1,21 +1,4 @@
-// const { v4 } = require('uuid');
 const db = require('../../database');
-
-const validation = true;
-let contacts = [
-  // {
-  //   id: v4(),
-  //   name: 'Thiago',
-  //   email: 'thiago.neves@kroonar.com',
-  //   category_id: v4(),
-  // },
-  // {
-  //   id: v4(),
-  //   name: 'Rômulo',
-  //   email: 'romulo.gomes@kroonar.com',
-  //   category_id: v4(),
-  // },
-];
 
 class ContactsRepository {
   async findAll(orderBy = 'ASC') {
@@ -62,15 +45,14 @@ class ContactsRepository {
     return row;
   }
 
-  remove(id) {
-    return new Promise((resolve, reject) => {
-      if (validation) {
-        contacts = contacts.filter((item) => item.id !== id);
-        resolve();
-      } else {
-        reject(new Error('something bad happened'));
-      }
-    });
+  async remove(id) {
+    const deleteOperation = await db.query(`
+        DELETE FROM contacts
+        WHERE ID = $1
+        RETURNING *
+        `, [id]);
+
+    return deleteOperation;
   }
 }
 
