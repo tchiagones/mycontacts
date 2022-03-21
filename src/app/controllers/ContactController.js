@@ -18,7 +18,9 @@ class ContactController {
   }
 
   async store(request, response) {
-    const { name, email } = request.body;
+    const {
+      name, email, phone, category_id,
+    } = request.body;
 
     if (!name) {
       return response.status(404).json({ error: 'name is required' });
@@ -31,7 +33,7 @@ class ContactController {
     }
 
     const contact = await ContactsRepository.create({
-      name, email,
+      name, email, phone, category_id,
     });
 
     return response.json(contact);

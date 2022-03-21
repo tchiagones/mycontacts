@@ -1,41 +1,37 @@
-const { v4 } = require('uuid');
+// const { v4 } = require('uuid');
+const db = require('../../database');
 
 const validation = true;
 let contacts = [
-  {
-    id: v4(),
-    name: 'Thiago',
-    email: 'thiago.neves@kroonar.com',
-    category_id: v4(),
-  },
-  {
-    id: v4(),
-    name: 'Rômulo',
-    email: 'romulo.gomes@kroonar.com',
-    category_id: v4(),
-  },
+  // {
+  //   id: v4(),
+  //   name: 'Thiago',
+  //   email: 'thiago.neves@kroonar.com',
+  //   category_id: v4(),
+  // },
+  // {
+  //   id: v4(),
+  //   name: 'Rômulo',
+  //   email: 'romulo.gomes@kroonar.com',
+  //   category_id: v4(),
+  // },
 ];
 
 class ContactsRepository {
-  findAll() {
-    return new Promise((resolve, reject) => {
-      if (validation) {
-        resolve(contacts);
-      } else {
-        reject(new Error('something bad happened'));
-      }
-    });
+  async findAll() {
+    const rows = await db.query(`
+        SELECT * FROM contacts
+        `);
+
+    return rows;
   }
 
-  findById(id) {
-    return new Promise((resolve, reject) => {
-      if (validation) {
-        const contact = contacts.find((item) => item.id === id);
-        resolve(contact);
-      } else {
-        reject(new Error('something bad happened'));
-      }
-    });
+  async findById(id) {
+    const rows = await db.query(`
+        SELECT * FROM contacts WHERE ID = $1
+        `, [id]);
+
+    return rows;
   }
 
   findByEmail(email) {
@@ -48,23 +44,16 @@ class ContactsRepository {
     });
   }
 
-  create({ name, email }) {
-    return new Promise((resolve, reject) => {
-      if (validation) {
-        const contact = {
-          id: v4(),
-          name,
-          email,
-          category_id: v4(),
-        };
+  async create({
+    name, email, phone, category_id,
+  }) {
+    const [row] = await db.query(`
+        INSERT INTO contacts(name, email, phone, category_id)
+        VALUES($1, $2, $3, $4)
+        RETURNING *
+        `, [name, email, phone, category_id]);
 
-        contacts.push(contact);
-
-        resolve(contact);
-      } else {
-        reject(new Error('something bad happened'));
-      }
-    });
+    return row;
   }
 
   update(id, { name, email }) {

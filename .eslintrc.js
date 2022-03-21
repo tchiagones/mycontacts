@@ -14,5 +14,6 @@ module.exports = {
     'linebreak-style': ['error', 'windows'],
     'class-methods-use-this': 'off',
     'prefer-const': 'off',
+    camelcase: 'off',
   },
 };
