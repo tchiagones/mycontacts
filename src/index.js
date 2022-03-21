@@ -6,12 +6,7 @@ const logMessage = `🔥 Server started at http://localhost:${portNumber} with a
 
 const routes = require('./routes');
 
-// app.use((request, response) => {
-//   request.appId = 'MeuAppId';
-
-//   response.sendStatus(200);
-// });
-
+app.use(express.json());
 app.use(routes);
 app.listen(portNumber, () => console.log(
   logMessage,

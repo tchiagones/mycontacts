@@ -38,6 +38,35 @@ class ContactsRepository {
     });
   }
 
+  findByEmail(email) {
+    return new Promise((resolve, reject) => {
+      if (validation) {
+        resolve(contacts.find((item) => item.email === email));
+      } else {
+        reject(new Error('something bad happened'));
+      }
+    });
+  }
+
+  create({ name, email }) {
+    return new Promise((resolve, reject) => {
+      if (validation) {
+        const contact = {
+          id: v4(),
+          name,
+          email,
+          category_id: v4(),
+        };
+
+        contacts.push(contact);
+
+        resolve(contact);
+      } else {
+        reject(new Error('something bad happened'));
+      }
+    });
+  }
+
   remove(id) {
     return new Promise((resolve, reject) => {
       if (validation) {
