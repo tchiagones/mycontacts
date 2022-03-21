@@ -67,6 +67,26 @@ class ContactsRepository {
     });
   }
 
+  update(id, { name, email }) {
+    return new Promise((resolve, reject) => {
+      if (validation) {
+        const updatedContact = {
+          id,
+          name,
+          email,
+        };
+
+        contacts = contacts.map((contact) => (
+          contact.id === id ? updatedContact : contact
+        ));
+
+        resolve(updatedContact);
+      } else {
+        reject(new Error('something bad happened'));
+      }
+    });
+  }
+
   remove(id) {
     return new Promise((resolve, reject) => {
       if (validation) {
